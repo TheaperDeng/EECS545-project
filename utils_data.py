@@ -60,7 +60,7 @@ def pixelClassify(pixel):
     # 3 - cytoplasm
     red = pixel[0]
     for i in range(len(COLOR_DICT)):
-        if red == COLOR_DICT[i][0]:
+        if red == COLOR_DICT[i]:
             return i
     return 0
 
