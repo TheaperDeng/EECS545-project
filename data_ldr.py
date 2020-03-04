@@ -17,12 +17,13 @@ from PIL import Image
 from config import *
 
 class img_seg_ldr(torch.utils.data.Dataset):
-        def __init__(self, transform = data_transform, data_dir = ".", upd_content = True):
+        def __init__(self, transform = data_transform, data_dir = ".", upd_content = True, label_transform = label_transform):
 
             self.image_list, self.mask_list = content_generator(data_dir, new=upd_content)
             self.SIZE = len(self.image_list) # calculate the filenum as the size of our data
             self.rootdir = data_dir 
             self.transform = transform
+            self.label_transform = label_transform
 
         def __getitem__(self, idx):
 
@@ -31,13 +32,14 @@ class img_seg_ldr(torch.utils.data.Dataset):
 
             img = Image.open(img_filename)
             label = Image.open(lable_filename)
+            label = self.label_transform(label)
             label = generateLabel(label)
 
             # transform
             # label = torch.from_numpy(label).type(torch.FloatTensor) # Float for MSE/SmoothL1Loss()
-            label = torch.from_numpy(label).type(torch.LongTensor)
+            
             img = self.transform(img)
-
+            label = torch.from_numpy(label).type(torch.LongTensor)
             return img, label
 
         def __len__(self):
