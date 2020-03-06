@@ -16,10 +16,10 @@ C           =   [64,    255,    64  ] #green, cytoplasm
 COLOR_DICT  =   [Unlabelled[0],A[0],B[0],C[0]] #only R layer is used
 
 data_transform = transforms.Compose([
-        transforms.CenterCrop(480) ,
+        transforms.CenterCrop(496) ,
         transforms.ToTensor()
     ])
 
 label_transform = transforms.Compose([
-        transforms.CenterCrop(480)
+        transforms.CenterCrop(496)
     ])
